@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>College Portal Login</title>
+</head>
+<body>
+    <h2>College Portal Login</h2>
+
+    <div id="login">
+        <input type="text" id="username" placeholder="Username"><br><br>
+        <input type="password" id="password" placeholder="Password"><br><br>
+
+        <select id="role">
+            <option value="Student">Student</option>
+            <option value="Admin">Admin</option>
+        </select><br><br>
+
+        <button onclick="loginUser()">Login</button>
+    </div>
+
+    <div id="dashboard" style="display:none;">
+        <h2 id="welcome"></h2>
+        <p id="message"></p>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        localStorage.setItem("adminUser", "admin");
+        localStorage.setItem("adminPass", "1234");
+        localStorage.setItem("studentUser", "student");
+        localStorage.setItem("studentPass", "5678");
+
+        function loginUser() {
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+            let role = document.getElementById("role").value;
+
+            if (role === "Admin" &&
+                user === localStorage.getItem("adminUser") &&
+                pass === localStorage.getItem("adminPass")) {
+                showDashboard("Admin");
+            }
+            else if (role === "Student" &&
+                user === localStorage.getItem("studentUser") &&
+                pass === localStorage.getItem("studentPass")) {
+                showDashboard("Student");
+            }
+            else {
+                alert("Invalid username or password!");
+            }
+        }
+
+        function showDashboard(role) {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("dashboard").style.display = "block";
+            document.getElementById("welcome").innerHTML =
+                "Welcome to " + role + " Dashboard";
+
+            if (role === "Admin") {
+                document.getElementById("message").innerHTML =
+                    "Admin can manage students and college details.";
+            } else {
+                document.getElementById("message").innerHTML =
+                    "Student can view marks and attendance.";
+            }
+        }
+
+        function logout() {
+            document.getElementById("login").style.display = "block";
+            document.getElementById("dashboard").style.display = "none";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+    </script>
+</body>
+</html>
